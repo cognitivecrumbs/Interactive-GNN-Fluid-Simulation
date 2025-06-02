@@ -1,0 +1,7 @@
+tmp*
+*.pyc
+.DS_store
+*.gif
+!anim/*.gif
+*.pkl
+
