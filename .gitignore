@@ -4,4 +4,4 @@ tmp*
 *.gif
 !anim/*.gif
 *.pkl
-
+!src/testing/*
