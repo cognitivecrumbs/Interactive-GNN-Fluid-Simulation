@@ -4,8 +4,6 @@ import os
 import yaml
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, parent_dir)  # insert(0, ...) gives your path priority
-parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
-sys.path.insert(0, parent_dir)  # insert(0, ...) gives your path priority
 import pytest
 import torch
 import numpy as np
