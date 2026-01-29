@@ -1,29 +1,27 @@
 from matplotlib import pyplot as plt
 from matplotlib import animation
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+from src.solver import Solver
+from typing import Optional
+from torch_geometric.data import Data
 
 import os
-# import warnings
-# import yaml
 import tqdm
 import torch
 import numpy as np
-from mpl_toolkits.axes_grid1 import make_axes_locatable
-
-# os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
-# warnings.filterwarnings('ignore')
-
-# from torch_geometric.data import Data
-
-# from src.interface import Interface
-from src.solver import Solver
 import matplotlib.cm as cm
 
 
-def generate_histories(solver_inputs,iter,ic_data):
+def generate_histories(solver_inputs: Optional[dict] = None,
+                       iter: int = 100,
+                       ic_data: Optional[Data] = None,
+                       solver: Optional[Solver] = None) -> tuple:
     field_history = []
     pos_history = []
     n_history = []
-    solver = Solver(solver_inputs,ic_data=ic_data)
+    if not isinstance(solver, Solver):
+        solver = Solver(solver_inputs,ic_data=ic_data)
+
     # pos_history.append(solver.pos)
     # field_history.append(solver.pull_field())
     print('Generating Simulation')

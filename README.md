@@ -41,10 +41,11 @@ This codebase requires the following packages
 - pygame
 - pyyaml
 - pyopengl
+- pytest
 
 They can be installed using the following commands
 
-`$ pip install torch matplotlib scikit-learn pygame pyyaml PyOpenGL PyOpenGL_accelerate`
+`$ pip install torch matplotlib scikit-learn pygame pyyaml PyOpenGL PyOpenGL_accelerate pytest`
 
 If you have a nvidia gpu, you can install a cuda enable version of pytorch. Refer to the [pytorch documentation](https://pytorch.org/get-started/locally/).
 
@@ -55,6 +56,11 @@ Pytorch specific dependencies only installs after pytorch is installed
 Sometimes the cached packages do not install propertly. Try using --no-cache with pip install if errors are encountered.
 
 ## Running the code
+
+To run the automated tests, run
+`$ pytest`
+
+All tests should pass without failing
 
 For the pure pygame interactive interface run 
 

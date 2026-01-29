@@ -24,19 +24,19 @@ class Solver(object):
             if torch.cuda.is_available():
                 self.device = 'cuda'
             elif torch.backends.mps.is_available():
-                self.device = torch.device("mps")
+                self.device = 'mps'
 
         # Normalization
         self.stats_z = solver_inputs['norm_stats']['stats_z']
         for key in self.stats_z.keys():
             if isinstance(self.stats_z[key],str):
-                self.stats_z[key] = torch.load(self.stats_z[key],map_location=self.device)
+                self.stats_z[key] = torch.load(self.stats_z[key],map_location=self.device,weights_only=True)
             else:
                 self.stats_z[key] = torch.tensor(self.stats_z[key],device=self.device)
         self.stats_q = solver_inputs['norm_stats']['stats_q']
         for key in self.stats_q.keys():
             if isinstance(self.stats_q[key],str):
-                self.stats_q[key] = torch.load(self.stats_q[key],map_location=self.device)
+                self.stats_q[key] = torch.load(self.stats_q[key],map_location=self.device,weights_only=True)
             else:
                 self.stats_q[key] = torch.tensor(self.stats_q[key],device=self.device)
 
@@ -61,14 +61,14 @@ class Solver(object):
         else:
             raise ValueError('Invalid model type %s'%(self.fm_model_type))
 
-        self.net.load_state_dict(torch.load(solver_inputs['model']['model_location'],map_location=self.device))
-        self.fm_net.load_state_dict(torch.load(solver_inputs['fm_mesh']['model_location'],map_location=self.device))
+        self.net.load_state_dict(torch.load(solver_inputs['model']['model_location'],map_location=self.device,weights_only=True))
+        self.fm_net.load_state_dict(torch.load(solver_inputs['fm_mesh']['model_location'],map_location=self.device,weights_only=True))
 
         self.corrector =  solver_inputs['fm_mesh']['corrector']
         self.corrector_model_attributes = model_attributes(solver_inputs['fm_mesh']['corrector_model_attributes'])
         if self.corrector:
             self.corrector_model = NodeMovementCorrector(self.corrector_model_attributes,solver_inputs['fm_mesh']['corrector_dims']).to(self.device).float()
-            self.corrector_model.load_state_dict(torch.load(solver_inputs['fm_mesh']['corrector_location'],map_location=self.device))
+            self.corrector_model.load_state_dict(torch.load(solver_inputs['fm_mesh']['corrector_location'],map_location=self.device,weights_only=True))
 
         self.fm_std_scaling = solver_inputs['fm_mesh']['std_scaling']
 
@@ -209,6 +209,8 @@ class Solver(object):
     def find_boundaries(pos,n):
         '''
         creates new one hot tensor which classifies wall nodes as exterior or interior wall nodes
+        3 classes: fluid node, external wall, internal wall.
+        Used for flow matching mesh redistribution
         '''
         new_n = torch.zeros((pos.shape[0],3))
         mask = n[:,0] != 1
