@@ -1,0 +1,50 @@
+# # ---- Core ----
+# fastapi
+# uvicorn[standard]
+# numpy
+# scipy
+
+# # ---- PyTorch (CPU) ----
+# torch==2.1.2
+# torchvision
+# torchaudio
+
+# # ---- PyTorch Geometric stack ----
+# torch-scatter
+# # torch-sparse
+# # torch-cluster
+# # torch-spline-conv
+# torch-geometric
+
+# # ---- ML / science ----
+# scikit-learn
+# matplotlib
+
+# # ---- Simulation / viz ----
+# pygame
+# PyOpenGL
+
+# # ---- Utilities ----
+# pyyaml
+# pytest
+
+# ---- Web ----
+fastapi
+uvicorn[standard]
+
+# ---- Math / utils ----
+numpy
+scipy
+pyyaml
+
+# ---- ML (NO TORCH HERE) ----
+scikit-learn
+
+# ---- Visualization ----
+matplotlib
+pygame
+PyOpenGL
+
+# ---- Testing ----
+pytest
+python-multipart

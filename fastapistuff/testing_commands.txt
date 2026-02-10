@@ -1,0 +1,7 @@
+curl -X POST http://localhost:8000/instance/1; echo
+curl -X POST http://localhost:8000/1/initialize/   -F "pos=@../ic/cylinder_1_v_1.00_q_0.pt"   -F "field=@../ic/cylinder_1_v_1.00_z.pt"   -F "n=@../ic/cylinder_1_v_1.00_n.pt"   -F "edge=@../ic/cylinder_1_v_1.00_edge_index.pt"; echo
+curl -X POST http://localhost:8000/1/initialize/   -F "pos=@ic/cylinder_1_v_1.00_q_0.pt"   -F "field=@ic/cylinder_1_v_1.00_z.pt"   -F "n=@ic/cylinder_1_v_1.00_n.pt"   -F "edge=@ic/cylinder_1_v_1.00_edge_index.pt"; echo
+curl -X POST http://localhost:8000/1/update_state/ -F "pos=@q_0.pt" -F "edge=@edge_index.pt"
+
+curl -o z_hist.pt -X POST "http://localhost:8000/1/predict/?inner_steps=4&outer_steps=4"; echo
+curl -X POST "http://localhost:8000/1/gen_new_mesh/?outer_steps=4&inner_steps=100"; echo

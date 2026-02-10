@@ -1,0 +1,9 @@
+pytorch
+pytorch-scatter
+pytorch-geometric
+matplotlib
+sklearn
+pygame
+pyyaml
+pyopengl
+pytest
