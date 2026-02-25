@@ -88,9 +88,14 @@ async def instance_status():
     return status
 
 @app.post("/instance/{instance_id}")
-async def create_instance(instance_id:str):
+async def create_instance(instance_id:str,
+                          input_yaml:Optional[UploadFile] = File(None),
+                          model_parameters:Optional[UploadFile] = File(None),
+                          fm_model_parameters:Optional[UploadFile] = File(None)):
     app.state.solver[instance_id] = Solver(
-        app.state.solver_inputs
+        app.state.solver_inputs if input_yaml is None else yaml.load(io.BytesIO(await input_yaml.read()), Loader=yaml.FullLoader),
+        model_parameters = None if model_parameters is None else torch.load(io.BytesIO(await model_parameters.read()), map_location="cpu"),
+        fm_parameters    = None if fm_model_parameters is None else torch.load(io.BytesIO(await fm_model_parameters.read()), map_location="cpu")
     )
 
     # setup locking while predictions

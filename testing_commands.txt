@@ -3,5 +3,15 @@ curl -X POST http://localhost:8000/1/initialize/   -F "pos=@../ic/cylinder_1_v_1
 curl -X POST http://localhost:8000/1/initialize/   -F "pos=@ic/cylinder_1_v_1.00_q_0.pt"   -F "field=@ic/cylinder_1_v_1.00_z.pt"   -F "n=@ic/cylinder_1_v_1.00_n.pt"   -F "edge=@ic/cylinder_1_v_1.00_edge_index.pt"; echo
 curl -X POST http://localhost:8000/1/update_state/ -F "pos=@q_0.pt" -F "edge=@edge_index.pt"
 
+curl -X POST http://localhost:8000/instance/2 -F "model_parameters=@models/mgn.pt"; echo
+
 curl -o z_hist.pt -X POST "http://localhost:8000/1/predict/?inner_steps=4&outer_steps=4"; echo
 curl -X POST "http://localhost:8000/1/gen_new_mesh/?outer_steps=4&inner_steps=100"; echo
+docker build -t gnn-api --platform=linux/amd64 .
+docker build -t gnn-api --platform=linux/amd64 --no-cache .
+
+docker cp requirements.txt laughing_lichterman:app/test.txt
+
+curl -X POST http://localhost:8000/instance/2 -F "model_parameters=@models/mgn.pt" -F "input_yaml=@reference_parameters.yaml" -F "fm_model_parameters=@models/fm_mesh_model_global1.pt";echo
+curl -X POST http://localhost:8000/2/initialize/   -F "pos=@ic/cylinder_1_v_1.00_q_0.pt"   -F "field=@ic/cylinder_1_v_1.00_z.pt"   -F "n=@ic/cylinder_1_v_1.00_n.pt"   -F "edge=@ic/cylinder_1_v_1.00_edge_index.pt"; echo
+curl -o z_hist.pt -X POST "http://localhost:8000/2/predict/?inner_steps=4&outer_steps=100"; echo

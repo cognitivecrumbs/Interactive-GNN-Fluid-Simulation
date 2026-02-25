@@ -1,41 +1,24 @@
-# # ---- Core ----
-# fastapi
-# uvicorn[standard]
-# numpy
-# scipy
-
-# # ---- PyTorch (CPU) ----
-# torch==2.1.2
-# torchvision
-# torchaudio
-
-# # ---- PyTorch Geometric stack ----
-# torch-scatter
-# # torch-sparse
-# # torch-cluster
-# # torch-spline-conv
-# torch-geometric
-
-# # ---- ML / science ----
-# scikit-learn
-# matplotlib
-
-# # ---- Simulation / viz ----
-# pygame
-# PyOpenGL
-
-# # ---- Utilities ----
-# pyyaml
-# pytest
-
 # ---- Web ----
 fastapi
 uvicorn[standard]
 
 # ---- Math / utils ----
-numpy
+numpy<2
 scipy
 pyyaml
+
+# PyTorch CPU wheels
+# --index-url https://download.pytorch.org/whl/cpu
+
+torch==2.0.1
+torchvision
+torchaudio
+
+# PyG wheels compatible with torch 2.0.1 + cpu
+-f https://data.pyg.org/whl/torch-2.0.1+cpu.html
+torch-scatter
+torch-geometric
+
 
 # ---- ML (NO TORCH HERE) ----
 scikit-learn
