@@ -1,0 +1,33 @@
+# ---- Web ----
+fastapi
+uvicorn[standard]
+
+# ---- Math / utils ----
+numpy<2
+scipy
+pyyaml
+
+# PyTorch CPU wheels
+# --index-url https://download.pytorch.org/whl/cpu
+
+torch==2.0.1
+torchvision
+torchaudio
+
+# PyG wheels compatible with torch 2.0.1 + cpu
+-f https://data.pyg.org/whl/torch-2.0.1+cpu.html
+torch-scatter
+torch-geometric
+
+
+# ---- ML (NO TORCH HERE) ----
+scikit-learn
+
+# ---- Visualization ----
+matplotlib
+pygame
+PyOpenGL
+
+# ---- Testing ----
+pytest
+python-multipart

@@ -7,6 +7,7 @@ from src.interface import Interface
 from src.model import TIGNN,MeshGraphNet,NodeMovement,NodeMovementGlobal,NodeMovementGlobalN,NodeMovementCorrector
 
 from matplotlib import pyplot as plt
+from typing import Optional
 
 class model_attributes:
     def __init__(self, dictionary):
@@ -16,7 +17,9 @@ class model_attributes:
 class Solver(object):
     def __init__(self,
                  solver_inputs,
-                 ic_data=None):
+                 ic_data=None,
+                 model_parameters: Optional[torch.Tensor] = None,
+                 fm_parameters: Optional[torch.Tensor] = None):
         self.solver_inputs = solver_inputs
 
         self.device = 'cpu'
@@ -61,8 +64,17 @@ class Solver(object):
         else:
             raise ValueError('Invalid model type %s'%(self.fm_model_type))
 
-        self.net.load_state_dict(torch.load(solver_inputs['model']['model_location'],map_location=self.device,weights_only=True))
-        self.fm_net.load_state_dict(torch.load(solver_inputs['fm_mesh']['model_location'],map_location=self.device,weights_only=True))
+        # self.net.load_state_dict(torch.load(solver_inputs['model']['model_location'],map_location=self.device,weights_only=True))
+        # self.fm_net.load_state_dict(torch.load(solver_inputs['fm_mesh']['model_location'],map_location=self.device,weights_only=True))
+        if model_parameters is None:
+            self.net.load_state_dict(torch.load(solver_inputs['model']['model_location'],map_location=self.device,weights_only=True))
+        else: 
+            self.net.load_state_dict(model_parameters)
+        if fm_parameters is None:
+            self.fm_net.load_state_dict(torch.load(solver_inputs['fm_mesh']['model_location'],map_location=self.device,weights_only=True))
+        else:
+            self.fm_net.load_state_dict(fm_parameters)
+
 
         self.corrector =  solver_inputs['fm_mesh']['corrector']
         self.corrector_model_attributes = model_attributes(solver_inputs['fm_mesh']['corrector_model_attributes'])
