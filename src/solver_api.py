@@ -22,7 +22,7 @@ from solver import Solver
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    with open("reference_parameters.yaml", "r") as f:
+    with open("api_defaults/reference_parameters.yaml", "r") as f:
         solver_inputs = yaml.load(f, Loader=yaml.FullLoader)
 
     app.state.solver_inputs = solver_inputs

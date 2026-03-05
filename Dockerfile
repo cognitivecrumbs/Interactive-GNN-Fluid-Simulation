@@ -22,24 +22,19 @@ RUN apt-get update && apt-get install -y \
 RUN pip install --upgrade pip
 
 # ---- Install remaining deps ----
-COPY requirements.txt .
+# COPY requirements.txt .
+COPY api_defaults/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 # RUN pip install -r requirements.txt
 
 # ---- Copy Files ----
-COPY src/ /app/src/
-COPY reference_parameters.yaml /app/
-COPY models/ /app/models
-COPY ic/ /app/ic
+COPY src/utils /app/src/utils
+COPY src/*.py /app/src/
+# COPY reference_parameters.yaml /app/
+# COPY models/ /app/models
+# COPY ic/ /app/ic
 
-# # ---- Sanity check ----
-# RUN python - <<EOF
-# import torch
-# import torch_geometric
-# import yaml, sklearn, matplotlib, pygame
-# from solver import Solver
-# print("All critical imports OK")
-# EOF
+COPY api_defaults/ /app/api_defaults/
 
 EXPOSE 8000
 
