@@ -114,18 +114,23 @@ escape: exit
 ## Fast API with Docker Containerization
 
 A fast api with docker containerization is implemented with this code. To create the docker image first install docker then run the following command.
+
 `$ docker build -t gnn-api .`
+
 For linux/macbook machines, an additional flag of  --platform=linux/amd64 may be needed to properly build the image.
 
 Once the image is built, it can be run with your preferred settings in the docker app. This will automatically launch the gnn api
 
 The gnn api has several endpoints to access and interact with the model. First you must intialize a instance with the instance endpoint. A new instance can be created by running the following command.
+
 `$ curl -X POST http://localhost:8000/instance/{instance_id}`
 
 This, by default will load in a pretrained mesh graph net model as the gnn model. However, this can be modified with the following flags to create a new instance with a custom model.
+
 `$ curl -X POST http://localhost:8000/instance/{instance_id} -F "model_parameters=@{model_parameter_file}"`
 
-Once the instance is created, the initial conditions are required to be loaded into the model. This is done by the instance_id/intiailize endpoint as shown below
+Once the instance is created, the initial conditions are required to be loaded into the model. This is done by the instance_id/intiailize endpoint as shown below.
+
 `curl -X POST http://localhost:8000/{instance_id}/initialize/ -F "pos=@{node_position_file}"   -F "field=@{field_value_file}"   -F "n=@{node_type_file}"   -F "edge=@{edge_connections_file}"`
 
 After initializing the field, the model can be run using the predict endpoint. There are two arguments associated with this endpoint being inner_steps and outer_steps. Inner_steps denotes predictions without saving to a output tensor. Outer_steps denotes the number of times inner_steps is run, saving after each full inner_steps cycle. Therefore, total prediction steps will be inner_steps*outer_steps saved every inner_step increment. These are defaulted to 1 if no parameter is specified. To access and save the output of this prediction endpoint, the following command can be used. 
